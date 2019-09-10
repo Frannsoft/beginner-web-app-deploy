@@ -6,6 +6,10 @@ body {
   height: 100vh;
 }
 
+.loading {
+  color: whitesmoke;
+}
+
 .content {
   display: flex;
   align-items: center;
