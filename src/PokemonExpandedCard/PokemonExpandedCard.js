@@ -4,7 +4,7 @@ import PokemonDetail from '../PokemonDetail/PokemonDetail';
 import './PokemonExpandedCard.css';
 
 export default props => {
-  const { pokemonData, handleViewAnotherPokemon } = props;
+  const { pokemonData } = props;
   return (
     <div className='pokemon'>
       <div className='header'>
@@ -25,9 +25,6 @@ export default props => {
         <Link to='/'>
           <button>Back to all Pokemon</button>
         </Link>
-        <div className='view-another-pokemon'>
-          <button onClick={handleViewAnotherPokemon}>View another Pokemon</button>
-        </div>
       </div>
     </div>
   );

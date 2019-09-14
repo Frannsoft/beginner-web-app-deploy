@@ -19,7 +19,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    window.fathom('trackPageview', { path: '/' });
     await this.loadPokemonCollection();
   }
 
@@ -57,18 +56,15 @@ class App extends Component {
     }
     return (
       <Router>
-        <div className='App content'>
+        <div className='App'>
           <Route
             path='/'
             exact
             render={() => {
-              return content;
+              return <div className='content'>{content}</div>;
             }}
           />
-          <Route
-            path='/:name'
-            component={PokemonExpandedCardContainer}
-          />
+          <Route path='/:name' component={PokemonExpandedCardContainer} />
         </div>
       </Router>
     );

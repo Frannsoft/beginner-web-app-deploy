@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import './PokemonExpandedCardContainer.css';
 import PokemonExpandedCard from '../PokemonExpandedCard/PokemonExpandedCard';
 
 export const getSinglePokemon = async pokemonId => {
   return await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
-};
-
-export const getRandomPokemonId = validPokemonIds => {
-  return validPokemonIds[Math.floor(Math.random() * validPokemonIds.length)];
 };
 
 export const validPokemonIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -22,31 +17,9 @@ export default class PokemonExpandedCardContainer extends Component {
     };
   }
 
-  handleViewAnotherPokemon = async () => {
-    try {
-      const pokemonId = getRandomPokemonId(validPokemonIds);
-      const pokeApiResponse = await getSinglePokemon(pokemonId);
-
-      const pokeApiResponseBody = await pokeApiResponse.json();
-
-      this.setState({
-        pokemonData: pokeApiResponseBody
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({
-        errorData: error
-      });
-    } finally {
-      this.setState({
-        loading: false
-      });
-    }
-  };
-
   async componentDidMount() {
     const pokemon = this.props.match.params.name;
-    window.fathom('trackPageview', { path: `/${pokemon}` });
+    window.fathom('trackPageview', { page: `/${pokemon}` });
 
     try {
       const pokeApiResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
