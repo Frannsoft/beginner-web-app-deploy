@@ -1,6 +1,7 @@
 import React from 'react';
-import './PokemonContainer.css';
+import { Link } from 'react-router-dom';
 import PokemonDetail from '../PokemonDetail/PokemonDetail';
+import './PokemonExpandedCard.css';
 
 export default props => {
   const { pokemonData, handleViewAnotherPokemon } = props;
@@ -20,8 +21,13 @@ export default props => {
       <PokemonDetail title='Held Items' items={pokemonData.held_items} itemKey='item' />
       <PokemonDetail title='Types' items={pokemonData.types} itemKey='type' />
       <PokemonDetail title='First four moves' items={pokemonData.moves.slice(0, 4)} itemKey='move' />
-      <div className='view-another-pokemon'>
-        <button onClick={handleViewAnotherPokemon}>View another Pokemon</button>
+      <div className="view-controls">
+        <Link to='/'>
+          <button>Back to all Pokemon</button>
+        </Link>
+        <div className='view-another-pokemon'>
+          <button onClick={handleViewAnotherPokemon}>View another Pokemon</button>
+        </div>
       </div>
     </div>
   );

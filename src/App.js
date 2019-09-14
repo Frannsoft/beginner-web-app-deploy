@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import PokemonContainer from './PokemonContainer/PokemonContainer';
+import PokemonCollectionContainer from './PokemonCollectionContainer/PokemonCollectionContainer';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import PokemonExpandedCardContainer from './PokemonExpandedCardContainer/PokemonExpandedCardContainer';
 
-export const getPokemonData = async pokemonId => {
-  return await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+export const getPokemonCollection = async () => {
+  return await fetch('https://pokeapi.co/api/v2/pokemon?limit=9');
 };
-
-export const getRandomPokemonId = validPokemonIds => {
-  return validPokemonIds[Math.floor(Math.random() * validPokemonIds.length)];
-};
-
-export const validPokemonIds = [...Array(150).keys()]; //the best generation
 
 class App extends Component {
   constructor(props) {
@@ -18,23 +14,22 @@ class App extends Component {
     this.state = {
       errorData: null,
       loading: true,
-      pokemonData: null
+      pokemonLinkKeyValuePairs: null
     };
   }
 
   async componentDidMount() {
-    await this.handleViewAnotherPokemon();
+    window.fathom('trackPageview', { path: '/' });
+    await this.loadPokemonCollection();
   }
 
-  handleViewAnotherPokemon = async () => {
+  loadPokemonCollection = async () => {
     try {
-      const pokemonId = getRandomPokemonId(validPokemonIds);
-      const pokeApiResponse = await getPokemonData(pokemonId);
+      const pokeApiResponse = await getPokemonCollection();
 
       const pokeApiResponseBody = await pokeApiResponse.json();
-
       this.setState({
-        pokemonData: pokeApiResponseBody
+        pokemonLinkKeyValuePairs: pokeApiResponseBody.results
       });
     } catch (error) {
       console.error(error);
@@ -51,19 +46,31 @@ class App extends Component {
   render() {
     let content = null;
 
-    const { loading, error, pokemonData } = this.state;
+    const { loading, error, pokemonLinkKeyValuePairs } = this.state;
 
     if (loading) {
       content = <p className='loading'>One moment please...</p>;
     } else if (!loading && error) {
       content = <p className='error'>Oops, there was an error getting data!</p>;
-    } else if (!loading && !error && pokemonData) {
-      content = <PokemonContainer pokemonData={pokemonData} handleViewAnotherPokemon={this.handleViewAnotherPokemon} />;
+    } else if (!loading && !error && pokemonLinkKeyValuePairs) {
+      content = <PokemonCollectionContainer pokemonLinkKeyValuePairs={pokemonLinkKeyValuePairs} />;
     }
     return (
-      <div className='App'>
-        <div className='content'>{content}</div>
-      </div>
+      <Router>
+        <div className='App content'>
+          <Route
+            path='/'
+            exact
+            render={() => {
+              return content;
+            }}
+          />
+          <Route
+            path='/:name'
+            component={PokemonExpandedCardContainer}
+          />
+        </div>
+      </Router>
     );
   }
 }

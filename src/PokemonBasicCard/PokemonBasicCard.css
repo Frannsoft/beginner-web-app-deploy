@@ -1,0 +1,16 @@
+.card {
+  border-radius: 4px;
+  background-color: whitesmoke;
+  padding: 1rem;
+  margin: 1rem;
+  min-width: 200px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.72);
+  font-weight: 500;
+  color: black;
+  text-decoration: none;
+}
+
