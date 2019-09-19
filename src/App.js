@@ -18,8 +18,9 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.loadPokemonCollection();
+  componentDidMount() {
+    this.loadPokemonCollection();
+
   }
 
   loadPokemonCollection = async () => {
@@ -44,7 +45,6 @@ class App extends Component {
 
   render() {
     let content = null;
-
     const { loading, error, pokemonLinkKeyValuePairs } = this.state;
 
     if (loading) {
