@@ -43,13 +43,13 @@ export default class PokemonExpandedCardContainer extends Component {
   render() {
     let content = null;
 
-    const { loading, error, pokemonData } = this.state;
+    const { loading, errorData, pokemonData } = this.state;
 
     if (loading) {
       content = <p className='loading'>One moment please...</p>;
-    } else if (!loading && error) {
+    } else if (!loading && errorData) {
       content = <p className='error'>Oops, there was an error getting data!</p>;
-    } else if (!loading && !error && pokemonData) {
+    } else if (!loading && !errorData && pokemonData) {
       content = (
         <PokemonExpandedCard pokemonData={pokemonData} handleViewAnotherPokemon={this.handleViewAnotherPokemon} />
       );
